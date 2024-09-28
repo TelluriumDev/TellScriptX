@@ -20,7 +20,6 @@ if is_config("backend", "quickjs") then
     add_packages(
             "quickjs"
         )
-    -- add_cxxflags("-DSCRIPTX_BACKEND_TRAIT_PREFIX=../backend/QuickJs/trait/Trait")
     add_defines(
             "SCRIPTX_BACKEND_QUICKJS",
             "SCRIPTX_BACKEND_TRAIT_PREFIX=../backend/QuickJs/trait/Trait"
@@ -28,6 +27,7 @@ if is_config("backend", "quickjs") then
     add_files(
             "backend/QuickJs/**.cc"
         )
+        
 elseif is_config("backend", "Lua") then
     add_packages(
             "lua"
