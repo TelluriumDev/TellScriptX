@@ -5,7 +5,7 @@ add_requires("lua", {configs={shared=true}})
 
 option("backend")
     set_default("quickjs")
-    set_values("quickjs", "lua")
+    set_values("quickjs", "Lua")
 
 target("ScriptX")
     set_languages("cxx20")
