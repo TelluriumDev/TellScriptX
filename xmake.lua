@@ -1,11 +1,11 @@
 add_rules("mode.debug", "mode.release")
 
-add_requires("quickjs", {configs={shared=true}})
-add_requires("lua")
+add_requires("quickjs 2024.01.13", {configs={shared=true}})
+add_requires("lua", {configs={shared=true}})
 
 option("backend")
     set_default("quickjs")
-    set_values("quickjs", "Lua")
+    set_values("quickjs", "lua")
 
 target("ScriptX")
     set_languages("cxx20")
