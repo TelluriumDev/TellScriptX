@@ -35,6 +35,10 @@ Local<Number> Number::newNumber(double value) {
   return Local<Number>(v8::Number::New(v8_backend::currentEngineIsolateChecked(), value));
 }
 
+Local<Number> Number::newNumber(uint value) {
+  return Local<Number>(v8::Integer::NewFromUnsigned(v8_backend::currentEngineIsolateChecked(), value));
+}
+
 Local<Object> Object::newObject() {
   return Local<Object>(v8::Object::New(v8_backend::currentEngineIsolateChecked()));
 }

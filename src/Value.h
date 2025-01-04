@@ -24,6 +24,8 @@
 #include "foundation.h"
 #include SCRIPTX_BACKEND(Engine.h)
 
+#include "ll/api/base/StdInt.h"
+
 namespace script {
 
 // values
@@ -204,6 +206,8 @@ class Number : public Value {
   static Local<Number> newNumber(float value);
 
   static Local<Number> newNumber(double value);
+
+  static Local<Number> newNumber(uint value);
 };
 
 class Boolean : public Value {
