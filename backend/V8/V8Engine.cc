@@ -95,7 +95,7 @@ void V8Engine::destroy() noexcept {
       it.second.Reset();
       // do destruct
       auto data = it.first;
-      //data->cleanupFunc(data->data);
+      data->cleanupFunc(data->data);
       delete data;
     }
     managedObject_.clear();
