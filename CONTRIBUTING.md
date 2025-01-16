@@ -17,6 +17,7 @@ Please execute the command after cloning project code.
 2. Install clang-format tool
 
 Installation method
+
 ```
 mac -> brew install clang-format
 windows -> http://llvm.org/builds/
@@ -55,6 +56,7 @@ clone项目代码之后请执行
 2. 安装clang-format工具
 
 安装方法
+
 ```
 mac     -> brew install clang-format
 windows -> http://llvm.org/builds/
