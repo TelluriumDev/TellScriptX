@@ -208,6 +208,8 @@ class Number : public Value {
   static Local<Number> newNumber(double value);
 
   static Local<Number> newNumber(uint value);
+
+  static Local<Number> newNumber(uint64 value);
 };
 
 class Boolean : public Value {
