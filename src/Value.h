@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include <cassert>
 #include <memory>
 #include <ostream>
 #include <string>
@@ -27,7 +28,6 @@
 #include "ll/api/base/StdInt.h"
 
 namespace script {
-
 // values
 enum class ValueKind {
   kNull = 0,
@@ -40,8 +40,10 @@ enum class ValueKind {
   kByteBuffer,
   // types that are not supported by ScriptX
   // like BigInt in js
+  // ConfigObject,
   kUnsupported
 };
+
 // value related APIs:
 // 1. Value.h value type class
 // 2. Reference.h Local<ValueType> specialized
@@ -49,7 +51,7 @@ enum class ValueKind {
 //  2.2 Local<Value> getKind
 // 4. backend_trait/Reference.h
 
-inline const char* valueKindName(ValueKind kind) noexcept {
+inline const char *valueKindName(ValueKind kind) noexcept {
   switch (kind) {
     case ValueKind::kNull:
       return "Null";
@@ -67,13 +69,15 @@ inline const char* valueKindName(ValueKind kind) noexcept {
       return "Array";
     case ValueKind::kByteBuffer:
       return "ByteBuffer";
+    // case ValueKind::ConfigObject:
+    //   return "ConfigObject";
     case ValueKind::kUnsupported:
     default:
       return "Unsupported";
   }
 }
 
-inline std::ostream& operator<<(std::ostream& o, ValueKind k) {
+inline std::ostream &operator<<(std::ostream &o, ValueKind k) {
   o << valueKindName(k);
   return o;
 }
@@ -93,7 +97,7 @@ class Object : public Value {
    * @return new plain object instance of type, throw on failure
    * note: for JavaScript, type must be a function, for other Script language, refer to the backend.
    */
-  static Local<Object> newObject(const Local<Value>& type, const std::vector<Local<Value>>& args);
+  static Local<Object> newObject(const Local<Value> &type, const std::vector<Local<Value> > &args);
 
   /**
    * @param type
@@ -101,8 +105,8 @@ class Object : public Value {
    * @return new plain object instance of type, throw on failure
    * note: for JavaScript, type must be a function, for other Script language, refer to the backend.
    */
-  static Local<Object> newObject(const Local<Value>& type,
-                                 const std::initializer_list<Local<Value>>& args);
+  static Local<Object> newObject(const Local<Value> &type,
+                                 const std::initializer_list<Local<Value> > &args);
 
   /**
    * typesafe variadic template helper method
@@ -111,15 +115,57 @@ class Object : public Value {
    * note: for JavaScript, type must be a function, for other Script language, refer to the backend.
    */
   template <typename... T>
-  static Local<Object> newObject(const Local<Value>& type, T&&... args);
+  static Local<Object> newObject(const Local<Value> &type, T &&...args);
 
  private:
-  static Local<Object> newObjectImpl(const Local<Value>& type, size_t size,
-                                     const Local<Value>* args);
+  static Local<Object> newObjectImpl(const Local<Value> &type, size_t size,
+                                     const Local<Value> *args);
 
   friend class ScriptEngine;
   friend typename internal::ImplType<ScriptEngine>::type;
 };
+
+// class ConfigObject : public Value {
+//  public:
+//   /**
+//    * @return new plain object, throw on failure.
+//    */
+//   static Local<ConfigObject> newConfigObject();
+// 
+//   /**
+//    * @param type
+//    * @param args
+//    * @return new plain object instance of type, throw on failure
+//    * note: for JavaScript, type must be a function, for other Script language, refer to the backend.
+//    */
+//   static Local<ConfigObject> newConfigObject(const Local<Value> &type,
+//                                              const std::vector<Local<Value> > &args);
+// 
+//   /**
+//    * @param type
+//    * @param args
+//    * @return new plain object instance of type, throw on failure
+//    * note: for JavaScript, type must be a function, for other Script language, refer to the backend.
+//    */
+//   static Local<ConfigObject> newConfigObject(const Local<Value> &type,
+//                                              const std::initializer_list<Local<Value> > &args);
+// 
+//   /**
+//    * typesafe variadic template helper method
+//    * @tparam T MUST BE local reference, ie: Local<Type>. or supported raw C++ type to convert.
+//    * @return new plain object instance of type, throw on failure
+//    * note: for JavaScript, type must be a function, for other Script language, refer to the backend.
+//    */
+//   template <typename... T>
+//   static Local<ConfigObject> newConfigObject(const Local<Value> &type, T &&...args);
+// 
+//  private:
+//   static Local<ConfigObject> newConfigObjectImpl(const Local<Value> &type, size_t size,
+//                                                  const Local<Value> *args);
+// 
+//   friend class ScriptEngine;
+//   friend typename internal::ImplType<ScriptEngine>::type;
+// };
 
 class String : public Value {
  public:
@@ -131,7 +177,7 @@ class String : public Value {
    *
    * when utf8 is nullptr, a null local reference is returned;
    */
-  static Local<String> newString(const char* utf8);
+  static Local<String> newString(const char *utf8);
 
   /**
    * create string from utf8 encoding string.
@@ -155,7 +201,7 @@ class String : public Value {
    * @param utf8
    * @return
    */
-  static Local<String> newString(const std::string& utf8);
+  static Local<String> newString(const std::string &utf8);
 
   // https://en.ccreference.com/w/cpp/preprocessor/replace#Predefined_macros
 #if defined(__cpp_char8_t)
@@ -169,7 +215,7 @@ class String : public Value {
    * @return
    * when utf8 is nullptr, a null local reference is returned;
    */
-  static Local<String> newString(const char8_t* utf8);
+  static Local<String> newString(const char8_t *utf8);
 
   /**
    * Create string from utf8 encoding string.
@@ -193,7 +239,7 @@ class String : public Value {
    * This is the C++20 standard, and is preferred!
    *
    */
-  static Local<String> newString(const std::u8string& utf8);
+  static Local<String> newString(const std::u8string &utf8);
 #endif
 };
 
@@ -239,7 +285,7 @@ class Function : public Value {
    */
   // implementation is in Native.hpp
   template <typename Func>
-  static Local<Function> newFunction(Func&& callback, bool nothrow = kDefaultNoThrow);
+  static Local<Function> newFunction(Func &&callback, bool nothrow = kDefaultNoThrow);
 
  private:
 #ifdef SCRIPTX_NO_EXCEPTION_ON_BIND_FUNCTION
@@ -253,9 +299,9 @@ class Array : public Value {
  public:
   static Local<Array> newArray(size_t size = 0);
 
-  static Local<Array> newArray(const std::vector<Local<Value>>& elements);
+  static Local<Array> newArray(const std::vector<Local<Value> > &elements);
 
-  static Local<Array> newArray(const std::initializer_list<Local<Value>>& elements);
+  static Local<Array> newArray(const std::initializer_list<Local<Value> > &elements);
 
   /**
    * typesafe variadic template helper method
@@ -264,10 +310,10 @@ class Array : public Value {
    * note: for JavaScript, type must be a function, for other Script language, refer to the impl
    */
   template <typename... T>
-  static Local<Array> of(T&&... args);
+  static Local<Array> of(T &&...args);
 
  private:
-  static Local<Array> newArrayImpl(size_t size, const Local<Value>* args);
+  static Local<Array> newArrayImpl(size_t size, const Local<Value> *args);
 };
 
 namespace internal {
@@ -315,7 +361,7 @@ class ByteBuffer : public Value {
    * thus ret.getRawBytes() != nativeBuffer
    *
    */
-  static Local<ByteBuffer> newByteBuffer(void* nativeBuffer, size_t size);
+  static Local<ByteBuffer> newByteBuffer(void *nativeBuffer, size_t size);
 
   /**
    * create a new ByteBuffer SHARING the same buffer with native code.
@@ -330,5 +376,4 @@ class ByteBuffer : public Value {
 };
 
 class Unsupported : public Value {};
-
 }  // namespace script

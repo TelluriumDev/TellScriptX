@@ -17,7 +17,6 @@
 
 #pragma once
 
-#include <type_traits>
 #include "../../../src/foundation.h"
 #include "../../../src/types.h"
 #include "../../../src/utils/GlobalWeakBookkeeping.hpp"
@@ -50,6 +49,7 @@ TypeMap(::script::Function, v8::Function);
 TypeMap(::script::Array, v8::Array);
 TypeMap(::script::ByteBuffer, v8::Value);
 TypeMap(::script::Unsupported, v8::Value);
+// TypeMap(::script::ConfigObject, v8::ConfigObject);
 
 #undef TypeMap
 

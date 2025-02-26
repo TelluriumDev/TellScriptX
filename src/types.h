@@ -18,6 +18,7 @@
 #pragma once
 
 #include <functional>
+// #include "Value.h"
 #include "foundation.h"
 
 // all exported types
@@ -53,6 +54,8 @@ enum class ValueKind;
 class Value;
 
 class Object;
+
+class ConfigObject;
 
 class String;
 

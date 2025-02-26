@@ -62,7 +62,26 @@ Local<Object> Object::newObjectImpl(const Local<Value>& type, size_t size,
   return Local<Object>(ret.ToLocalChecked());
 }
 
-Local<String> String::newString(const char* utf8) {
+// Local<ConfigObject> ConfigObject::newConfigObject() {
+//   return Local<ConfigObject>(v8::ConfigObject::New(v8_backend::currentEngineIsolateChecked()));
+// }
+// 
+// Local<ConfigObject> ConfigObject::newConfigObjectImpl(const Local<Value> &type, size_t size,
+//                                                       const Local<Value> *args) {
+//   auto &&[isolate, context] = v8_backend::currentEngineIsolateAndContextChecked();
+// 
+//   v8::TryCatch tryCatch(isolate);
+// 
+//   auto ret = v8_backend::toV8ValueArray<v8::MaybeLocal<v8::ConfigObject> >(
+//       isolate, size, args, [&type, &size, iso = isolate, &ctx = context](auto *v8Args) {
+//         return v8_backend::V8Engine::toV8(iso, type.asFunction())
+//             ->NewInstance(ctx, static_cast<int>(size), v8Args);
+//       });
+//   v8_backend::checkException(tryCatch);
+//   return Local<ConfigObject>(ret.ToLocalChecked());
+// }
+
+Local<String> String::newString(const char *utf8) {
   if (!utf8) throw Exception("null pointer");
   return newString(std::string_view(utf8));
 }

@@ -221,6 +221,8 @@ class V8Engine : public ::script::ScriptEngine {
 
   friend class ::script::Object;
 
+  // friend class ::script::ConfigObject;
+
   friend class ::script::ScriptEngine;
 
   // in V8Helper.h

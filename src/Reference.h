@@ -296,6 +296,8 @@ class Local<Value> {
 
   Local<Object> asObject() const;
 
+  // Local<ConfigObject> asConfigObject() const;
+
   Local<Array> asArray() const;
 
   Local<ByteBuffer> asByteBuffer() const;
@@ -384,6 +386,65 @@ class Local<Object> {
 
   SPECIALIZE_NON_VALUE(Object)
 };
+
+// template <>
+// class Local<ConfigObject> {
+//   SPECIALIZE_LOCAL(ConfigObject)
+// 
+//  public:
+//   Local<Value> get(const Local<String>& key) const;
+// 
+//   template <typename StringLike, StringLikeConcept(StringLike)>
+//   Local<Value> get(StringLike&& keyStringLike) const {
+//     return get(String::newString(std::forward<StringLike>(keyStringLike)));
+//   }
+// 
+//   void set(const Local<String>& key, const Local<Value>& value) const;
+// 
+//   /**
+//    * @param value any thing supported by the type converter
+//    */
+//   template <typename T>
+//   void set(const Local<String>& key, T&& value) const;
+// 
+//   /**
+//    * @param keyStringLike any thing can fit in String::new(keyStringLike) or Local<String>
+//    * @param value any thing supported by the type converter
+//    */
+//   template <typename StringLike, typename T = Local<Value>, StringLikeConcept(StringLike)>
+//   void set(StringLike&& keyStringLike, T&& value) const;
+// 
+//   void remove(const Local<String>& key) const;
+// 
+//   template <typename StringLike, StringLikeConcept(StringLike)>
+//   void remove(StringLike&& keyStringLike) const {
+//     remove(String::newString(std::forward<StringLike>(keyStringLike)));
+//   }
+// 
+//   bool has(const Local<String>& key) const;
+// 
+//   template <typename StringLike, StringLikeConcept(StringLike)>
+//   bool has(StringLike&& keyStringLike) const {
+//     return has(String::newString(std::forward<StringLike>(keyStringLike)));
+//   }
+// 
+//   /**
+//    * @return this instanceof type
+//    */
+//   bool instanceOf(const Local<Value>& type) const;
+// 
+//   /**
+//    * @return all keys to enumerate properties of this object
+//    */
+//   std::vector<Local<String>> getKeys() const;
+// 
+//   /**
+//    * @return all keys to enumerate properties of this object
+//    */
+//   std::vector<std::string> getKeyNames() const;
+// 
+//   SPECIALIZE_NON_VALUE(ConfigObject)
+// };
 
 template <>
 class Local<String> {
