@@ -91,6 +91,10 @@ Local<Number> Number::newNumber(int64_t value) {
   return qjs_interop::makeLocal<Number>(JS_NewInt64(qjs_backend::currentContext(), value));
 }
 
+Local<Number> Number::newNumber(uint value) {
+  return qjs_interop::makeLocal<Number>(JS_NewUint32(qjs_backend::currentContext(), value));
+}
+
 Local<Boolean> Boolean::newBoolean(bool value) {
   return qjs_interop::makeLocal<Boolean>(JS_NewBool(qjs_backend::currentContext(), value));
 }

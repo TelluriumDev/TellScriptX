@@ -17,6 +17,7 @@
 
 #pragma once
 #include "../../src/Native.h"
+#include "QjsEngine.h"
 #include "QjsHelper.h"
 
 namespace script {

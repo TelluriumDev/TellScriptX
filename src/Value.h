@@ -22,6 +22,7 @@
 #include <ostream>
 #include <string>
 #include <string_view>
+#include "Reference.h"
 #include "foundation.h"
 #include SCRIPTX_BACKEND(Engine.h)
 
@@ -131,38 +132,41 @@ class Object : public Value {
 //    * @return new plain object, throw on failure.
 //    */
 //   static Local<ConfigObject> newConfigObject();
-// 
+//
 //   /**
 //    * @param type
 //    * @param args
 //    * @return new plain object instance of type, throw on failure
-//    * note: for JavaScript, type must be a function, for other Script language, refer to the backend.
+//    * note: for JavaScript, type must be a function, for other Script language, refer to the
+//    backend.
 //    */
 //   static Local<ConfigObject> newConfigObject(const Local<Value> &type,
 //                                              const std::vector<Local<Value> > &args);
-// 
+//
 //   /**
 //    * @param type
 //    * @param args
 //    * @return new plain object instance of type, throw on failure
-//    * note: for JavaScript, type must be a function, for other Script language, refer to the backend.
+//    * note: for JavaScript, type must be a function, for other Script language, refer to the
+//    backend.
 //    */
 //   static Local<ConfigObject> newConfigObject(const Local<Value> &type,
 //                                              const std::initializer_list<Local<Value> > &args);
-// 
+//
 //   /**
 //    * typesafe variadic template helper method
 //    * @tparam T MUST BE local reference, ie: Local<Type>. or supported raw C++ type to convert.
 //    * @return new plain object instance of type, throw on failure
-//    * note: for JavaScript, type must be a function, for other Script language, refer to the backend.
+//    * note: for JavaScript, type must be a function, for other Script language, refer to the
+//    backend.
 //    */
 //   template <typename... T>
 //   static Local<ConfigObject> newConfigObject(const Local<Value> &type, T &&...args);
-// 
+//
 //  private:
 //   static Local<ConfigObject> newConfigObjectImpl(const Local<Value> &type, size_t size,
 //                                                  const Local<Value> *args);
-// 
+//
 //   friend class ScriptEngine;
 //   friend typename internal::ImplType<ScriptEngine>::type;
 // };
@@ -245,17 +249,29 @@ class String : public Value {
 
 class Number : public Value {
  public:
-  static Local<Number> newNumber(int32_t value);
+    static Local<Number> newNumber(int32_t value);
+  
+    static Local<Number> newNumber(int64_t value);
+  
+    static Local<Number> newNumber(float value);
+  
+    static Local<Number> newNumber(double value);
+  
+    static Local<Number> newNumber(uint value);
 
-  static Local<Number> newNumber(int64_t value);
+    static Local<Number> newNumber(uint64 value);
 
-  static Local<Number> newNumber(float value);
-
-  static Local<Number> newNumber(double value);
-
-  static Local<Number> newNumber(uint value);
-
-  static Local<Number> newNumber(uint64 value);
+//   template <typename T>
+//   static Local<Number> newNumber(T value);
+// 
+//   template <>
+//   Local<Number> newNumber<int>(int value);
+// 
+//   template <>
+//   Local<Number> newNumber<int64_t>(int64_t value);
+// 
+//   template <>
+//   Local<Number> newNumber<float>(float value) {};
 };
 
 class Boolean : public Value {

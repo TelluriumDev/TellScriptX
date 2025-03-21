@@ -16,9 +16,11 @@
  */
 
 #pragma once
+#include <ScriptX/ScriptX.h>
 #include <cassert>
 #include <utility>
 #include "QjsHelper.hpp"
+
 
 namespace script {
 
